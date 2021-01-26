@@ -1,14 +1,24 @@
-class MaxBinaryHeap {
+class Node {
+    constructor(val, priority) {
+        this.value = val
+        this.priority = priority
+    }
+}
+
+class PriorityQueue {
     constructor() {
         this.values = []
     }
 
-    insert = val => {
-        this.values.push(val)
+    enqueue = (val, priority) => {
+        const node = new Node(val, priority)
+
+        this.values.push(node)
+
         let index = this.values.length - 1
         let parentIndex = Math.floor((index - 1) / 2)
 
-        while (parentIndex >= 0 && this.values[index] > this.values[parentIndex]) {
+        while (parentIndex >= 0 && this.values[index].priority < this.values[parentIndex].priority) {
             let current = this.values[index]
 
             this.values[index] = this.values[parentIndex]
@@ -20,7 +30,7 @@ class MaxBinaryHeap {
         return this
     }
 
-    extractMax = () => {
+    dequeue = () => {
         if (!this.values.length) {
             return undefined
         }
@@ -41,16 +51,16 @@ class MaxBinaryHeap {
             leftChildIndex = 2 * parentIndex + 1
             rightChildIndex = 2 * parentIndex + 2
             if (rightChildIndex < this.values.length) {
-                const biggerChildIndex = this.values[leftChildIndex] > this.values[rightChildIndex] ? leftChildIndex : rightChildIndex
-                if (current < this.values[biggerChildIndex]) {
-                    this.values[parentIndex] = this.values[biggerChildIndex]
-                    this.values[biggerChildIndex] = current
-                    parentIndex = biggerChildIndex
+                const smallerChildIndex = this.values[leftChildIndex].priority < this.values[rightChildIndex].priority ? leftChildIndex : rightChildIndex
+                if (current.priority > this.values[smallerChildIndex].priority) {
+                    this.values[parentIndex] = this.values[smallerChildIndex]
+                    this.values[smallerChildIndex] = current
+                    parentIndex = smallerChildIndex
                 } else {
                     return oldRoot
                 }
             } else if (leftChildIndex < this.values.length) {
-                if (current < this.values[leftChildIndex]) {
+                if (current.priority > this.values[leftChildIndex].priority) {
                     this.values[parentIndex] = this.values[leftChildIndex]
                     this.values[leftChildIndex] = current
                     parentIndex = leftChildIndex
