@@ -30,4 +30,17 @@ class Graph {
         this.adjacencyList[vertex_1] = this.adjacencyList[vertex_1].filter(vertex => vertex !== vertex_2)
         this.adjacencyList[vertex_2] = this.adjacencyList[vertex_2].filter(vertex => vertex !== vertex_1)
     }
+
+    depthFirstTraversalRec = vertex => {
+        const visited = []
+        const dfs = vertex => {
+            if (visited.includes(vertex) || !this.adjacencyList[vertex].length) {
+                return
+            }
+            visited.push(vertex)
+            this.adjacencyList[vertex].forEach(item => dfs(item))
+        }
+        dfs(vertex)
+        return visited
+    }
 }
