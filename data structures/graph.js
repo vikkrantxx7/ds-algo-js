@@ -43,4 +43,33 @@ class Graph {
         dfs(vertex)
         return visited
     }
+
+    depthFirstTraversalIter = vertex => {
+        const stack = [vertex]
+        const visited = []
+
+        while(stack.length) {
+            const vertex = stack.pop()
+            if (!visited.includes(vertex)) {
+                visited.push(vertex)
+            }
+            this.adjacencyList[vertex].forEach(item => !visited.includes(item) && stack.push(item))
+        }
+        return visited
+    }
+
+    breadthFirstTraversal = vertex => {
+        const queue = [vertex]
+        const visited = []
+
+        while(queue.length) {
+            const vertex = queue.shift()
+            if (!visited.includes(vertex)) {
+                visited.push(vertex)
+            }
+            this.adjacencyList[vertex].forEach(item => !visited.includes(item) && queue.push(item))
+        }
+
+        return visited
+    }
 }
